@@ -1,0 +1,1 @@
+{"name": "Alice Smith", "age": 30, "city": "New York"}
