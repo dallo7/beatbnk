@@ -6,7 +6,6 @@ import os
 app = Flask(__name__)
 
 # Define the path to the file where data will be saved
-# You can change 'user_data.txt' to your desired filename
 DATA_FILE = 'user_data.txt'
 
 
