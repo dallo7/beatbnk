@@ -41,6 +41,36 @@ def save_user_data():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An internal error occurred while saving data"}), 500
 
+# --- New GET endpoint ---
+@app.route('/get_data', methods=['GET'])
+def get_user_data():
+    """
+    Reads and returns all data stored in the data file.
+    """
+    # Check if the data file exists
+    if not os.path.exists(DATA_FILE):
+        return jsonify({"message": "No data file found"}), 404 # Not Found
+
+    all_data = []
+    try:
+        with open(DATA_FILE, 'r') as f:
+            for line in f:
+                # Strip newline characters and parse each JSON line
+                if line.strip(): # Ensure the line is not empty
+                    all_data.append(json.loads(line.strip()))
+
+        if not all_data:
+            return jsonify({"message": "No data available"}), 200 # OK, but no content
+
+        return jsonify(all_data), 200
+
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON from file: {e}")
+        return jsonify({"error": "Error reading or parsing data file"}), 500
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An internal error occurred while retrieving data"}), 500
+
 
 # Run the Flask app
 # debug=True is useful for development, but should be False in production
